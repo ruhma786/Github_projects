@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';  // Import color picker
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 void main() => runApp(XylophoneApp());
 
@@ -8,144 +8,149 @@ class XylophoneApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-      home: XylophoneHomePage(),
+      debugShowCheckedModeBanner: false,
+      title: 'Customized Xylophone',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Customized Xylophone'),
+        ),
+        body: Xylophone(),
+      ),
     );
   }
 }
 
-class XylophoneHomePage extends StatefulWidget {
+class Xylophone extends StatefulWidget {
   @override
-  _XylophoneHomePageState createState() => _XylophoneHomePageState();
+  XylophoneState createState() => XylophoneState();
 }
 
-class _XylophoneHomePageState extends State<XylophoneHomePage> {
-  final AudioCache _audioCache = AudioCache();
-  final List<Color> _keyColors = List.generate(7, (index) => Colors.white);
-  final List<int> _soundNumbers = List.generate(7, (index) => index + 1);
-  final List<bool> _isPressed = List.generate(7, (index) => false); // Track if the key is pressed
+class XylophoneState extends State<Xylophone> {
+  final AudioPlayer _audioPlayer = AudioPlayer(); // AudioPlayer instance
+  List<Color> _keyColors = List<Color>.generate(7, (index) => Colors.accents[index * 2]);
 
-  void playSound(int soundNumber) {
-    _audioCache.play('note$soundNumber.wav');  // Ensure note sounds are in assets
+  // List of available sounds
+  List<String> availableSounds = [
+    'assets/note1.wav',
+    'assets/note2.wav',
+    'assets/note3.wav',
+    'assets/note4.wav',
+    'assets/note5.wav',
+    'assets/note6.wav',
+    'assets/note7.wav'
+  ];
+
+  // List of selected sounds for each key
+  late List<String> _keySounds;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize each key with a default sound
+    _keySounds = List<String>.from(availableSounds);
   }
 
-  void changeKeyColor(int index, Color color) {
-    setState(() {
-      _keyColors[index] = color;
-    });
-  }
-
-  void changeSound(int index, int soundNumber) {
-    setState(() {
-      _soundNumbers[index] = soundNumber;
-    });
-  }
-
-  Widget buildKey(int index) {
+  Widget buildKey(int keyIndex) {
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-          playSound(_soundNumbers[index]);
-          setState(() {
-            _isPressed[index] = true;  // Set to true when pressed
-          });
-        },
-        onTapUp: (_) {
-          setState(() {
-            _isPressed[index] = false;  // Reset to false after pressing
-          });
-        },
-        child: Transform.scale(
-          scale: _isPressed[index] ? 1.1 : 1.0,  // Scale up on press
-          child: Container(
-            margin: EdgeInsets.all(5),  // Add some margin for better spacing
-            color: _keyColors[index],
-            child: Center(
-              // child: Text('  ',  Key ${index + 1}//
-              child: Text('  ',
-                style: TextStyle(fontSize: 18, color: Colors.black),
-              ),
-            ),
+        onTap: () => playSound(keyIndex),  // Play the selected sound for the key
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 200),
+          color: _keyColors[keyIndex],
+          alignment: Alignment.center,
+          child: Text(
+            'Key ${keyIndex + 1}',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
           ),
+          curve: Curves.easeInOut,
         ),
       ),
     );
   }
 
-  void openColorPicker(int index) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Choose color for Key ${index + 1}'),
-          content: SingleChildScrollView(
-            child: BlockPicker(
-              pickerColor: _keyColors[index],
-              onColorChanged: (color) {
-                changeKeyColor(index, color);
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void openSoundPicker(int index) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Choose sound for Key ${index + 1}'),
-          content: DropdownButton<int>(
-            value: _soundNumbers[index],
-            items: List.generate(
-              7,
-                  (i) => DropdownMenuItem(
-                child: Text('Sound ${i + 1}'),
-                value: i + 1,
-              ),
-            ),
-            onChanged: (value) {
-              changeSound(index, value ?? 1);
-              Navigator.of(context).pop();
-            },
-          ),
-        );
-      },
-    );
+  // Play the selected sound for the key
+  void playSound(int index) {
+    _audioPlayer.play(_keySounds[index]);  // Play the sound from assets
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('CUSTOMIZE XYLOPHONE'),
-        backgroundColor: Colors.pink,  // Adjust AppBar color
-      ),
-      body: Container(
-        color: Colors.pinkAccent[100],  // Set background color
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: List.generate(
-            7,
-                (index) => Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: List.generate(7, (index) => buildKey(index)),
+          ),
+        ),
+        settingsPanel(),
+      ],
+    );
+  }
+
+  // Panel to pick colors and sounds for each key
+  Widget settingsPanel() {
+    return Column(
+      children: [
+        for (int i = 0; i < 7; i++)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(child: buildKey(index)),
-                IconButton(
-                  icon: Icon(Icons.color_lens),
-                  onPressed: () => openColorPicker(index),
+                ElevatedButton(
+                  onPressed: () => pickColor(context, i),  // Pick a color for the key
+                  child: Text('Color Key ${i + 1}'),
                 ),
-                IconButton(
-                  icon: Icon(Icons.music_note),
-                  onPressed: () => openSoundPicker(index),
+                DropdownButton<String>(
+                  value: _keySounds[i],  // Current selected sound for the key
+                  items: availableSounds.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _keySounds[i] = newValue!;  // Update the selected sound for the key
+                    });
+                  },
+                  hint: Text('Select Sound'),  // Show hint text
                 ),
               ],
             ),
           ),
-        ),
-      ),
+      ],
+    );
+  }
+
+  // Pick a color for the key
+  Future<void> pickColor(BuildContext context, int index) async {
+    Color pickedColor = _keyColors[index];
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Pick a color for key ${index + 1}'),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: _keyColors[index],
+              onColorChanged: (color) => pickedColor = color,
+              pickerAreaHeightPercent: 0.8,
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('Done'),
+              onPressed: () {
+                setState(() => _keyColors[index] = pickedColor);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
