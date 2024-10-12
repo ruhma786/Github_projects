@@ -1,6 +1,50 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'quiz_brain.dart';
+
+class QuizBrain {
+  List<Map<String, Object>> _questions = [
+    {'question': 'The sky is blue.', 'answer': true},
+    {'question': 'Cats can fly.', 'answer': false},
+  ];
+
+  int _currentQuestionIndex = 0;
+
+  bool getAnswer() {
+    return _questions[_currentQuestionIndex]['answer'] as bool;
+  }
+
+  String getQuestion() {
+    return _questions[_currentQuestionIndex]['question'] as String;
+  }
+
+  bool isFinished() {
+    return _currentQuestionIndex >= _questions.length - 1;
+  }
+
+  void nextQuestion() {
+    if (_currentQuestionIndex < _questions.length - 1) {
+      _currentQuestionIndex++;
+    }
+  }
+
+  void reset() {
+    _currentQuestionIndex = 0;
+  }
+
+  void addQuestion(String question, bool answer) {
+    _questions.add({'question': question, 'answer': answer});
+  }
+
+  void removeQuestion(int index) {
+    if (index >= 0 && index < _questions.length) {
+      _questions.removeAt(index);
+    }
+  }
+
+  List<Map<String, Object>> getQuestions() {
+    return _questions;
+  }
+}
 
 QuizBrain quizBrain = QuizBrain();
 
@@ -22,30 +66,64 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent, // Set background color
+      backgroundColor: Colors.pink[200],
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => QuizScreen()),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white, // Button background color
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Welcome to the Quiz App!',
+              style: TextStyle(fontSize: 24, color: Colors.white),
             ),
-          ),
-          child: Text(
-            'Start Quiz',
-            style: TextStyle(
-              color: Colors.blueAccent,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => QuizScreen()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text(
+                'Start Quiz',
+                style: TextStyle(
+                  color: Colors.pinkAccent,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AdminPanel()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text(
+                'Admin Panel',
+                style: TextStyle(
+                  color: Colors.pinkAccent,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -74,13 +152,12 @@ class _QuizScreenState extends State<QuizScreen> {
   void _startTimer() {
     _timer?.cancel();
     _timeRemaining = 5;
-    _hasAnswered = false; // Reset the answer flag
+    _hasAnswered = false;
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       setState(() {
         if (_timeRemaining > 0) {
           _timeRemaining--;
         } else {
-          // If time runs out, consider it a wrong answer if the user hasn't answered yet
           if (!_hasAnswered) {
             _showDefaultWrongAnswer();
           }
@@ -93,7 +170,7 @@ class _QuizScreenState extends State<QuizScreen> {
     setState(() {
       _timeRemaining = 5;
       _isCorrect = null;
-      _hasAnswered = false; // Reset the answer flag
+      _hasAnswered = false;
       if (quizBrain.isFinished()) {
         _timer?.cancel();
         Navigator.push(
@@ -112,7 +189,7 @@ class _QuizScreenState extends State<QuizScreen> {
   void _answer(bool userPickedAnswer) {
     bool correctAnswer = quizBrain.getAnswer();
     setState(() {
-      _hasAnswered = true; // Set the answer flag
+      _hasAnswered = true;
       if (correctAnswer == userPickedAnswer) {
         scoreKeeper.add(Icon(Icons.check, color: Colors.green));
         score++;
@@ -121,7 +198,7 @@ class _QuizScreenState extends State<QuizScreen> {
         scoreKeeper.add(Icon(Icons.close, color: Colors.red));
         _isCorrect = false;
       }
-      _timer?.cancel(); // Stop the timer when the user answers
+      _timer?.cancel();
       Future.delayed(Duration(milliseconds: 500), _goToNextQuestion);
     });
   }
@@ -129,9 +206,9 @@ class _QuizScreenState extends State<QuizScreen> {
   void _showDefaultWrongAnswer() {
     setState(() {
       _hasAnswered = true;
-      scoreKeeper.add(Icon(Icons.close, color: Colors.red)); // Add cross mark
+      scoreKeeper.add(Icon(Icons.close, color: Colors.red));
       _isCorrect = false;
-      _timer?.cancel(); // Stop the timer
+      _timer?.cancel();
       Future.delayed(Duration(milliseconds: 500), _goToNextQuestion);
     });
   }
@@ -145,8 +222,7 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    //  backgroundColor: Colors.blueAccent, // Set background color
-      backgroundColor: Colors.indigo[100], // Light background color
+      backgroundColor: Colors.pink[200],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -161,8 +237,8 @@ class _QuizScreenState extends State<QuizScreen> {
                   child: CircularProgressIndicator(
                     value: _timeRemaining / 5,
                     strokeWidth: 8,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                    backgroundColor: Colors.grey[300],
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.pinkAccent),/////////////////////////////////////
+                    backgroundColor: Colors.grey,
                   ),
                 ),
                 Text(
@@ -170,7 +246,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
+                    color: Colors.pinkAccent,///////////////////////
                   ),
                 ),
               ],
@@ -188,8 +264,8 @@ class _QuizScreenState extends State<QuizScreen> {
                 ElevatedButton(
                   onPressed: () => _answer(true),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green, // Green button for True
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    backgroundColor: Colors.green,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -198,7 +274,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     'True',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -206,8 +282,8 @@ class _QuizScreenState extends State<QuizScreen> {
                 ElevatedButton(
                   onPressed: () => _answer(false),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // Red button for False
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    backgroundColor: Colors.red,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -216,7 +292,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     'False',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -248,13 +324,13 @@ class ResultScreen extends StatelessWidget {
 
   String getPerformanceMessage(int score) {
     if (score >= 0 && score <= 5) {
-      return 'Bad Performance';
+      return 'Bad Performance!';
     } else if (score >= 6 && score <= 8) {
-      return 'Average Performance';
+      return 'Average Performance!';
     } else if (score == 9) {
-      return 'Good Performance';
-    } else if (score == 10) {
-      return 'Excellence';
+      return 'Good Performance!';
+    } else if (score >= 10) {
+      return 'Excellence!';
     } else {
       return '';
     }
@@ -263,10 +339,10 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent, // Set background color
-    //  backgroundColor: Colors.tealAccent[100], // Set background color
+      backgroundColor: Colors.pink[200],
       body: Center(
         child: Container(
+          height: 300,
           width: 300,
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -276,36 +352,35 @@ class ResultScreen extends StatelessWidget {
               BoxShadow(
                 color: Colors.black26,
                 blurRadius: 10,
-                offset: Offset(0, 4),
+                offset: Offset(0, 5),
               ),
             ],
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Quiz Completed!', style: TextStyle(fontSize: 24)),
-              SizedBox(height: 20),
-              Text('Your Score: $score', style: TextStyle(fontSize: 20)),
-              SizedBox(height: 20),
               Text(
-                getPerformanceMessage(score),
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent),
+                'Quiz Completed!',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
+              Text(
+                'Your score: $score',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(height: 10),
+              Text(
+                getPerformanceMessage(score),
+                style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+              ),
+              SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () {
                   quizBrain.reset();
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => StartScreen()),
-                        (Route<dynamic> route) => false,
-                  );
+                  Navigator.popUntil(context, (route) => route.isFirst);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent, // Button background color
+                  backgroundColor: Colors.pink[400],
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -313,10 +388,7 @@ class ResultScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Restart Quiz',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
             ],
@@ -326,3 +398,124 @@ class ResultScreen extends StatelessWidget {
     );
   }
 }
+
+
+class AdminPanel extends StatefulWidget {
+  @override
+  _AdminPanelState createState() => _AdminPanelState();
+}
+
+class _AdminPanelState extends State<AdminPanel> {
+  final TextEditingController _questionController = TextEditingController();
+  bool _answer = true;
+
+  @override
+  void dispose() {
+    _questionController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.pink[200],
+      appBar: AppBar(
+        title: Text('Admin Panel'),
+        backgroundColor: Colors.pink[100],////////////////
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _questionController,
+              decoration: InputDecoration(
+                hintText: 'Enter new question',
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            ToggleButtons(
+              isSelected: [_answer, !_answer],
+              onPressed: (int index) {
+                setState(() {
+                  _answer = index == 0;
+                });
+              },
+              color: Colors.black, // Color of the unselected text
+              selectedColor: Colors.white, // Color of the text when selected
+              fillColor: Colors.pinkAccent, // Background color when selected
+              borderColor: Colors.white, // Border color
+              selectedBorderColor: Colors.pinkAccent, // Border color when selected
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text('True'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text('False'),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                String question = _questionController.text;
+                if (question.isNotEmpty) {
+                  setState(() {
+                    quizBrain.addQuestion(question, _answer);
+                    _questionController.clear();
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Question added successfully'),
+                  ));
+                }
+              },
+              child: Text('Add Question',
+                  style: TextStyle(color: Colors.pink[400], fontSize: 15),
+              ),
+            ),
+            SizedBox(height: 30),
+            Text(
+              'Current Questions:',
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: quizBrain.getQuestions().length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                    child: ListTile(
+                      title: Text(
+                        quizBrain.getQuestions()[index]['question'] as String,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete, color: Colors.grey),
+                        onPressed: () {
+                          setState(() {
+                            quizBrain.removeQuestion(index);
+                          });
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
