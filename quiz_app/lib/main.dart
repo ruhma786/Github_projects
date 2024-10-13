@@ -3,8 +3,17 @@ import 'dart:async';
 
 class QuizBrain {
   List<Map<String, Object>> _questions = [
-    {'question': 'The sky is blue.', 'answer': true},
-    {'question': 'Cats can fly.', 'answer': false},
+    {'question': 'Flutter is a framework?', 'answer': true},
+    {'question': 'Flutter uses Dart language?', 'answer': true},
+    {'question': 'A group of lions is called a herd.?', 'answer': false},
+    {'question': 'The Pacific Ocean is the largest ocean on Earth.', 'answer': true},
+    {'question': 'Bananas grow on trees.', 'answer': false},
+    {'question': 'Water boils at 100 degrees Celsius at sea level.', 'answer': true},
+    {'question': 'Humans have three lungs.', 'answer': false},
+    {'question': 'Flutter uses c++ language?', 'answer': false},
+    {'question': 'Sharks are mammals?', 'answer': false},
+    {'question': 'Flutter uses Dart language?', 'answer': true},
+    {'question': 'Lightning never strikes the same place twice', 'answer': false}
   ];
 
   int _currentQuestionIndex = 0;
