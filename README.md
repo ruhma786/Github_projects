@@ -1,6 +1,6 @@
 # Github_projects
  
-![coin flip](https://github.com/user-attachments/assets/fb8156e7-920d-4b67-8bf5-f545119cb5bc)
+![coin flip](https://github.com/user-attachments/assets/fb8156e7-920d-4b67-8bf5-f545119cb5b
 ![output1](https://github.com/user-attachments/assets/b2bd11cf-e1b1-409d-ab10-cd97898849a2)
 ![output2](https://github.com/user-attachments/assets/592e3af9-b618-4c7b-8e97-1a47cec9553f)
 ![calculator](https://github.com/user-attachments/assets/318eba8b-5819-47d6-83fe-c34c9bc9b062)
