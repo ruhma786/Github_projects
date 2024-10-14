@@ -1,6 +1,62 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+class MCQBrain {
+  List<Map<String, Object>> _mcqQuestions = [
+    {
+      'question': 'What is the capital of France?',
+      'options': ['Paris', 'London', 'Rome', 'Berlin'],
+      'answer': 'Paris',
+    },
+    // Add more MCQs here
+  ];
+
+  int _currentQuestionIndex = 0;
+
+  String getQuestion() {
+    return _mcqQuestions[_currentQuestionIndex]['question'] as String;
+  }
+
+  List<String> getOptions() {
+    return _mcqQuestions[_currentQuestionIndex]['options'] as List<String>;
+  }
+
+  String getAnswer() {
+    return _mcqQuestions[_currentQuestionIndex]['answer'] as String;
+  }
+
+  bool isFinished() {
+    return _currentQuestionIndex >= _mcqQuestions.length - 1;
+  }
+
+  void nextQuestion() {
+    if (_currentQuestionIndex < _mcqQuestions.length - 1) {
+      _currentQuestionIndex++;
+    }
+  }
+
+  void reset() {
+    _currentQuestionIndex = 0;
+  }
+
+  void addQuestion(String question, List<String> options, String answer) {
+    _mcqQuestions.add({
+      'question': question,
+      'options': options,
+      'answer': answer,
+    });
+  }
+
+  void removeQuestion(int index) {
+    if (index >= 0 && index < _mcqQuestions.length) {
+      _mcqQuestions.removeAt(index);
+    }
+  }
+}
+
+MCQBrain mcqBrain = MCQBrain();
+
+
 class QuizBrain {
   List<Map<String, Object>> _questions = [
     {'question': 'Flutter is a framework?', 'answer': true},
@@ -70,7 +126,6 @@ class QuizApp extends StatelessWidget {
     );
   }
 }
-
 class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -80,16 +135,11 @@ class StartScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Welcome to the Quiz App!',
-              style: TextStyle(fontSize: 24, color: Colors.white),
-            ),
-            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => QuizScreen()),
+                  MaterialPageRoute(builder: (context) => TrueFalsecreen()), // True/False Quiz Screen
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -100,7 +150,7 @@ class StartScreen extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Start Quiz',
+                'True/False Question ',
                 style: TextStyle(
                   color: Colors.pinkAccent,
                   fontSize: 20,
@@ -113,7 +163,7 @@ class StartScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AdminPanel()),
+                  MaterialPageRoute(builder: (context) => MCQScreen()), // MCQs Section
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -124,7 +174,7 @@ class StartScreen extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Admin Panel',
+                'MCQs',
                 style: TextStyle(
                   color: Colors.pinkAccent,
                   fontSize: 20,
@@ -326,6 +376,197 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 }
 
+class TrueFalsecreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.pink[200],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => QuizScreen()), // MCQs Quiz Screen
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text(
+                'Start True False  Quiz',
+                style: TextStyle(
+                  color: Colors.pinkAccent,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AdminPanel()), // MCQs Admin Panel
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text(
+                'TF Admin Panel',
+                style: TextStyle(
+                  color: Colors.pinkAccent,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class MCQScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.pink[200],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MCQQuizScreen()), // MCQs Quiz Screen
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text(
+                'Start MCQs Quiz',
+                style: TextStyle(
+                  color: Colors.pinkAccent,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MCQAdminPanel()), // MCQs Admin Panel
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text(
+                'MCQs Admin Panel',
+                style: TextStyle(
+                  color: Colors.pinkAccent,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MCQQuizScreen extends StatefulWidget {
+  @override
+  _MCQQuizScreenState createState() => _MCQQuizScreenState();
+}
+
+class _MCQQuizScreenState extends State<MCQQuizScreen> {
+  int score = 0;
+  bool _hasAnswered = false;
+
+  void _answer(String selectedOption) {
+    String correctAnswer = mcqBrain.getAnswer();
+    setState(() {
+      _hasAnswered = true;
+      if (selectedOption == correctAnswer) {
+        score++;
+      }
+      Future.delayed(Duration(seconds: 1), () {
+        if (mcqBrain.isFinished()) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ResultScreen(score: score),
+            ),
+          );
+        } else {
+          setState(() {
+            mcqBrain.nextQuestion();
+            _hasAnswered = false;
+          });
+        }
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.pink[200],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              mcqBrain.getQuestion(),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            Column(
+              children: mcqBrain.getOptions().map((option) {
+                return ElevatedButton(
+                  onPressed: () => _answer(option),
+                  child: Text(option),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class ResultScreen extends StatelessWidget {
   final int score;
 
@@ -409,6 +650,100 @@ class ResultScreen extends StatelessWidget {
 }
 
 
+
+// MCQ Admin Panel
+class MCQAdminPanel extends StatefulWidget {
+  @override
+  _MCQAdminPanelState createState() => _MCQAdminPanelState();
+}
+
+class _MCQAdminPanelState extends State<MCQAdminPanel> {
+  final TextEditingController _questionController = TextEditingController();
+  final List<TextEditingController> _optionControllers =
+  List.generate(4, (_) => TextEditingController());
+  String? _correctAnswer; // Make this nullable to handle unselected state
+
+  @override
+  void dispose() {
+    _questionController.dispose();
+    _optionControllers.forEach((controller) => controller.dispose());
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.pink[200],
+      appBar: AppBar(
+        title: Text('MCQs Admin Panel'),
+        backgroundColor: Colors.pink[300],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _questionController,
+              decoration: InputDecoration(
+                hintText: 'Enter new question',
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Column(
+              children: List.generate(4, (index) {
+                return TextField(
+                  controller: _optionControllers[index],
+                  decoration: InputDecoration(
+                    hintText: 'Option ${index + 1}',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                );
+              }),
+            ),
+            SizedBox(height: 20),
+            DropdownButton<String>(
+              value: _correctAnswer,
+              hint: Text('Select correct answer'),
+              items: _optionControllers
+                  .map((controller) => DropdownMenuItem(
+                value: controller.text,
+                child: Text(controller.text),
+              ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  _correctAnswer = value; // Update correct answer
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Logic to save question and options here
+                // Example:
+                print('Question: ${_questionController.text}');
+                print('Options: ${_optionControllers.map((c) => c.text).toList()}');
+                print('Correct Answer: $_correctAnswer');
+              },
+              child: Text('Add Question'),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.pink[300]),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class AdminPanel extends StatefulWidget {
   @override
   _AdminPanelState createState() => _AdminPanelState();
@@ -487,7 +822,7 @@ class _AdminPanelState extends State<AdminPanel> {
                 }
               },
               child: Text('Add Question',
-                  style: TextStyle(color: Colors.pink[400], fontSize: 15),
+                style: TextStyle(color: Colors.pink[400], fontSize: 15),
               ),
             ),
             SizedBox(height: 30),
@@ -526,5 +861,3 @@ class _AdminPanelState extends State<AdminPanel> {
     );
   }
 }
-
-
