@@ -649,9 +649,6 @@ class ResultScreen extends StatelessWidget {
   }
 }
 
-
-
-// MCQ Admin Panel
 class MCQAdminPanel extends StatefulWidget {
   @override
   _MCQAdminPanelState createState() => _MCQAdminPanelState();
@@ -661,7 +658,7 @@ class _MCQAdminPanelState extends State<MCQAdminPanel> {
   final TextEditingController _questionController = TextEditingController();
   final List<TextEditingController> _optionControllers =
   List.generate(4, (_) => TextEditingController());
-  String? _correctAnswer; // Make this nullable to handle unselected state
+  String? _correctAnswer;
 
   @override
   void dispose() {
@@ -713,12 +710,12 @@ class _MCQAdminPanelState extends State<MCQAdminPanel> {
             DropdownButton<String>(
               value: _correctAnswer,
               hint: Text('Select correct answer'),
-              items: _optionControllers
-                  .map((controller) => DropdownMenuItem(
-                value: controller.text,
-                child: Text(controller.text),
-              ))
-                  .toList(),
+              items: List.generate(4, (index) {
+                return DropdownMenuItem<String>(
+                  value: String.fromCharCode(65 + index), // A, B, C, D
+                  child: Text('Option ${String.fromCharCode(65 + index)}'), // Show A, B, C, D
+                );
+              }),
               onChanged: (value) {
                 setState(() {
                   _correctAnswer = value; // Update correct answer
@@ -729,7 +726,6 @@ class _MCQAdminPanelState extends State<MCQAdminPanel> {
             ElevatedButton(
               onPressed: () {
                 // Logic to save question and options here
-                // Example:
                 print('Question: ${_questionController.text}');
                 print('Options: ${_optionControllers.map((c) => c.text).toList()}');
                 print('Correct Answer: $_correctAnswer');
@@ -743,6 +739,8 @@ class _MCQAdminPanelState extends State<MCQAdminPanel> {
     );
   }
 }
+
+
 
 class AdminPanel extends StatefulWidget {
   @override
