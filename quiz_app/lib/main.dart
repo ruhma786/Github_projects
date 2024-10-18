@@ -21,7 +21,7 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade700,
+      backgroundColor: Colors.pink[200],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,11 +35,11 @@ class IntroScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            Image.asset('assets/chest.png', height: 150), // Placeholder for the logo
+            Image.asset('image/QUIZ APP.jpg', height: 150), // Placeholder for the logo
             SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple.shade600,
+                backgroundColor: Colors.pink[100],
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -51,7 +51,7 @@ class IntroScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => SelectSubjectScreen()),
                 );
               },
-              child: Text('Start Playing', style: TextStyle(fontSize: 18)),
+              child: Text('Start Playing', style: TextStyle(fontSize: 18,color: Colors.white) ),
             ),
           ],
         ),
@@ -64,9 +64,9 @@ class SelectSubjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade800,
+      backgroundColor: Colors.pink[200],
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple.shade600,
+        backgroundColor: Colors.pink[100],
         title: Text('Select Subject'),
         centerTitle: true,
       ),
@@ -76,7 +76,7 @@ class SelectSubjectScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple.shade600,
+                backgroundColor: Colors.pink[100],
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -85,12 +85,12 @@ class SelectSubjectScreen extends StatelessWidget {
               onPressed: () {
                 _navigateToQuizType(context, 'English');
               },
-              child: Text('English', style: TextStyle(fontSize: 18)),
+              child: Text('English', style: TextStyle(fontSize: 18, color: Colors.white)),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple.shade600,
+                backgroundColor: Colors.pink[100],
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -99,12 +99,12 @@ class SelectSubjectScreen extends StatelessWidget {
               onPressed: () {
                 _navigateToQuizType(context, 'Programming');
               },
-              child: Text('Programming', style: TextStyle(fontSize: 18)),
+              child: Text('Programming', style: TextStyle(fontSize: 18, color: Colors.white)),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple.shade600,
+                backgroundColor: Colors.pink[100],
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -113,7 +113,7 @@ class SelectSubjectScreen extends StatelessWidget {
               onPressed: () {
                 _navigateToQuizType(context, 'History');
               },
-              child: Text('History', style: TextStyle(fontSize: 18)),
+              child: Text('History', style: TextStyle(fontSize: 18, color: Colors.white)),
             ),
           ],
         ),
@@ -138,9 +138,9 @@ class SelectQuizTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade800,
+      backgroundColor: Colors.pink[200],
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple.shade600,
+        backgroundColor: Colors.pink[100],
         title: Text('Select Quiz Type'),
         centerTitle: true,
       ),
@@ -150,7 +150,7 @@ class SelectQuizTypeScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple.shade600,
+                backgroundColor: Colors.pink[100],
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -164,12 +164,12 @@ class SelectQuizTypeScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('Multiple Choice', style: TextStyle(fontSize: 18)),
+              child: Text('Multiple Choice', style: TextStyle(fontSize: 18,color: Colors.white)),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple.shade600,
+                backgroundColor: Colors.pink[100],
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -183,7 +183,7 @@ class SelectQuizTypeScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('True/False', style: TextStyle(fontSize: 18)),
+              child: Text('True/False', style: TextStyle(fontSize: 18,color: Colors.white)),
             ),
           ],
         ),
@@ -328,10 +328,10 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade900,
+      backgroundColor: Colors.pink[200],
       appBar: AppBar(
         title: Text('Quiz: ${widget.subject} (${widget.quizType})'),
-        backgroundColor: Colors.deepPurple.shade600,
+        backgroundColor: Colors.pink[100],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -349,13 +349,13 @@ class _QuizScreenState extends State<QuizScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () => _checkAnswer(true),
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple.shade600),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pink[100]),
                     child: Text('True'),
                   ),
                   SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () => _checkAnswer(false),
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple.shade600),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pink[100]),
                     child: Text('False'),
                   ),
                 ],
@@ -366,14 +366,14 @@ class _QuizScreenState extends State<QuizScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () => _checkAnswer(true),
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple.shade600),
-                    child: Text('True'),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pink[100]),
+                    child: Text('True', style: TextStyle(fontSize: 18,color: Colors.white)),
                   ),
                   SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () => _checkAnswer(false),
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple.shade600),
-                    child: Text('False'),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pink[100]),
+                    child: Text('False' , style: TextStyle(fontSize: 18,color: Colors.white)),
                   ),
                 ],
               ),
@@ -411,10 +411,10 @@ class ResultScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade900,
+      backgroundColor: Colors.pink[200],
       appBar: AppBar(
         title: Text('Quiz Result'),
-        backgroundColor: Colors.deepPurple.shade600,
+        backgroundColor: Colors.pink[100],
       ),
       body: Center(
         child: Column(
@@ -440,9 +440,9 @@ class ResultScreen extends StatelessWidget {
                 Navigator.popUntil(context, ModalRoute.withName('/'));
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple.shade600,
+                backgroundColor: Colors.pink[100],
               ),
-              child: Text('Go Back to Home'),
+              child: Text('Go Back to Home', style: TextStyle(fontSize: 18,color: Colors.white)),
             ),
           ],
         ),
