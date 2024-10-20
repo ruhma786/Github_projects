@@ -350,13 +350,13 @@ class _QuizScreenState extends State<QuizScreen> {
                   ElevatedButton(
                     onPressed: () => _checkAnswer(true),
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.pink[100]),
-                    child: Text('True'),
+                    child: Text('True', style: TextStyle(fontSize: 18,color: Colors.white)),
                   ),
                   SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () => _checkAnswer(false),
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.pink[100]),
-                    child: Text('False'),
+                    child: Text('False', style: TextStyle(fontSize: 18,color: Colors.white)),
                   ),
                 ],
               ),
