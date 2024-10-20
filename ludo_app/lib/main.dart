@@ -2,25 +2,26 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(LudoGame());
+  runApp(ModernLudoGame());
 }
 
-class LudoGame extends StatelessWidget {
+class ModernLudoGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Ludo Dice Game',
+      title: 'Modern Ludo Dice Game',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
+        fontFamily: 'Arial',
       ),
-      home: LudoGameScreen(),
+      home: ModernLudoGameScreen(),
     );
   }
 }
 
-class LudoGameScreen extends StatefulWidget {
+class ModernLudoGameScreen extends StatefulWidget {
   @override
-  _LudoGameScreenState createState() => _LudoGameScreenState();
+  _ModernLudoGameScreenState createState() => _ModernLudoGameScreenState();
 }
 
 class Player {
@@ -29,23 +30,22 @@ class Player {
   Player(this.name);
 }
 
-class _LudoGameScreenState extends State<LudoGameScreen>
+class _ModernLudoGameScreenState extends State<ModernLudoGameScreen>
     with SingleTickerProviderStateMixin {
   List<Player> players = [
-    Player('Player 1'),
-    Player('Player 2'),
-    Player('Player 3'),
-    Player('Player 4'),
+    Player('Player A'),
+    Player('Player B'),
+    Player('Player C'),
+    Player('Player D'),
   ];
 
   int currentPlayerIndex = 0;
-  int totalRounds = 10;
+  int totalRounds = 8;
   int currentRound = 1;
   Random random = Random();
-  String message = '';
-  int diceRoll = 0; // Initialize to show dice face 0 at the start
+  String message = 'Let’s start rolling!';
+  int diceRoll = 0;
 
-  // Animation variables
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -53,10 +53,10 @@ class _LudoGameScreenState extends State<LudoGameScreen>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 700),
       vsync: this,
     );
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceOut);
   }
 
   @override
@@ -66,7 +66,7 @@ class _LudoGameScreenState extends State<LudoGameScreen>
   }
 
   void rollDice() {
-    _controller.forward(from: 0); // Trigger the animation
+    _controller.forward(from: 0); // Start animation
 
     setState(() {
       diceRoll = random.nextInt(6) + 1;
@@ -75,20 +75,16 @@ class _LudoGameScreenState extends State<LudoGameScreen>
       message = '${players[currentPlayerIndex].name} rolled a $diceRoll';
 
       if (diceRoll == 6) {
-        message += ' and gets an extra roll!';
-        // Same player gets another turn
-        return;
+        message += ' and gets a bonus roll!';
+        return; // Same player gets another turn
       }
 
-      // Move to the next player's turn
       currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
 
-      // Check if round is complete (i.e., all players rolled once)
       if (currentPlayerIndex == 0) {
         currentRound++;
       }
 
-      // End the game after the set number of rounds
       if (currentRound > totalRounds) {
         _showWinner();
       }
@@ -100,11 +96,15 @@ class _LudoGameScreenState extends State<LudoGameScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Game Over'),
-        content: Text('${winner.name} wins with ${winner.score} points!'),
+        title: Text('Game Over!', style: TextStyle(color: Colors.teal)),
+        content: Text(
+          '${winner.name} is the champion with ${winner.score} points!',
+          style: TextStyle(fontSize: 18),
+        ),
         actions: [
-          TextButton(
-            child: Text('Play Again'),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+            child: Text('Restart'),
             onPressed: () {
               Navigator.of(context).pop();
               _resetGame();
@@ -120,8 +120,8 @@ class _LudoGameScreenState extends State<LudoGameScreen>
       currentRound = 1;
       currentPlayerIndex = 0;
       players.forEach((player) => player.score = 0);
-      message = 'Game reset! Let\'s start again!';
-      diceRoll = 0; // Reset dice roll to 1 (matching image assets)
+      message = 'Game restarted! Roll the dice!';
+      diceRoll = 0;
     });
   }
 
@@ -129,68 +129,67 @@ class _LudoGameScreenState extends State<LudoGameScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Ludo Dice Game',
-          style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.deepPurple,
+        title: Text('Modern Ludo Dice Game'),
+        backgroundColor: Colors.teal[700],
       ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.purpleAccent, Colors.deepPurpleAccent],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          gradient: RadialGradient(
+            colors: [Colors.teal.shade300, Colors.teal.shade900],
+            center: Alignment(0.1, 0.3),
+            radius: 1.0,
           ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'Round $currentRound of $totalRounds',
-                style: TextStyle(fontSize: 24, color: Colors.white),
+                style: TextStyle(fontSize: 26, color: Colors.white),
               ),
               SizedBox(height: 20),
               Text(
                 message,
-                style: TextStyle(fontSize: 18, color: Colors.white),
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
               SizedBox(height: 20),
               ScaleTransition(
                 scale: _animation,
                 child: Image.asset(
                   'images/dice-$diceRoll.jpg',
-                  width: 100,
-                  height: 100,
+                  width: 120,
+                  height: 120,
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: Colors.orange, // Text color
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.cyanAccent.shade700,
+                  padding: EdgeInsets.symmetric(horizontal: 36, vertical: 16),
+                  textStyle: TextStyle(fontSize: 20),
                 ),
                 onPressed: currentRound > totalRounds ? null : rollDice,
-                child: Text(
-                  'Roll Dice',
-                  style: TextStyle(fontSize: 18),
-                ),
+                child: Text('Roll Dice'),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               Expanded(
                 child: ListView.builder(
                   itemCount: players.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                        '${players[index].name}',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                      trailing: Text(
-                        '${players[index].score}',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                    return Card(
+                      color: Colors.teal.shade400,
+                      child: ListTile(
+                        title: Text(
+                          players[index].name,
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        trailing: Text(
+                          '${players[index].score}',
+                          style: TextStyle(color: Colors.yellow, fontSize: 20),
+                        ),
                       ),
                     );
                   },
@@ -203,7 +202,3 @@ class _LudoGameScreenState extends State<LudoGameScreen>
     );
   }
 }
-
-
-
-
