@@ -7,7 +7,7 @@ class Task {
   final String description;
   final DateTime dueDate;
   bool isCompleted;
-  final RepeatInterval repeatInterval;
+  final CustomRepeatInterval repeatInterval;
   Duration timeRemaining;
 
   Task({
@@ -16,7 +16,7 @@ class Task {
     required this.description,
     required this.dueDate,
     this.isCompleted = false,
-    this.repeatInterval = RepeatInterval.none,
+    this.repeatInterval = CustomRepeatInterval.none,
   }) : timeRemaining = dueDate.difference(DateTime.now()); // Initialize timeRemaining
 
   // Update the time remaining based on the current time
