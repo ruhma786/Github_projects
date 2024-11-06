@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'task.dart';
+import 'db_helper.dart';
 
 class TaskProvider with ChangeNotifier {
   List<Task> _tasks = [];
   bool _isLoading = false;
-  Timer? old;
   Timer? _timer;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
