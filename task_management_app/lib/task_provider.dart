@@ -6,6 +6,7 @@ import 'task.dart';
 class TaskProvider with ChangeNotifier {
   List<Task> _tasks = [];
   bool _isLoading = false;
+  Timer? old;
   Timer? _timer;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
