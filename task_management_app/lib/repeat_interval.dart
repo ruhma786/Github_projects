@@ -1,5 +1,5 @@
 // repeat_interval.dart
-enum RepeatInterval {
+enum CustomRepeatInterval {
   none,
   daily,
   weekly,
