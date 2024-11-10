@@ -19,17 +19,17 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
         backgroundColor: Colors.white,
       ),
       body: Column(
-        children: [
+        children:<Widget> [
           Expanded(
             child: Row(
-              children: [
+              children: <Widget>[
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isMale = true;
-                      });
-                    },
+                  child: Container(
+                    margin: EdgeInsets.all(15.0),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF1D1E33),
+                    borderRadius: BorderRadius.circular(10.0)),
+    
                     child: GenderCard(
                       label: 'MALE',
                       icon: Icons.male,
