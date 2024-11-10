@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'icon.dart';
-import 'container.dart';
+
+const activeColor = Color(0xFF1D1E33);
+const deactiveColor = Color(0xFF1D1E33);
+
+enum Gender { male, female }
+
 class BMICalculatorScreen extends StatefulWidget {
   @override
   _BMICalculatorScreenState createState() => _BMICalculatorScreenState();
@@ -11,6 +15,18 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
   double height = 180.0;
   int weight = 60;
   int age = 20;
+  Color maleColor = deactiveColor;
+  Color femaleColor = deactiveColor;
+
+  void updateColor(Gender genderType) {
+    if (genderType == Gender.male) {
+      maleColor = activeColor;
+      femaleColor = deactiveColor;
+    } else {
+      femaleColor = activeColor;
+      maleColor = deactiveColor;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,23 +37,29 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
         backgroundColor: Colors.white,
       ),
       body: Column(
-        children:<Widget> [
+        children: <Widget>[
           Expanded(
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: Container(
-                    margin: EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF1D1E33),
-                    borderRadius: BorderRadius.circular(10.0)),
-
-                    child: GenderCard(
-                      label: 'MALE',
-                      icon: Icons.male,
-
-                      isSelected: isMale,
-
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isMale = true;
+                        updateColor(Gender.male);
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                        color: isMale ? activeColor : deactiveColor,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: GenderCard(
+                        label: 'MALE',
+                        icon: Icons.male,
+                        isSelected: isMale,
+                      ),
                     ),
                   ),
                 ),
@@ -46,12 +68,20 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
                     onTap: () {
                       setState(() {
                         isMale = false;
+                        updateColor(Gender.female);
                       });
                     },
-                    child: GenderCard(
-                      label: 'FEMALE',
-                      icon: Icons.female,
-                      isSelected: !isMale,
+                    child: Container(
+                      margin: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                        color: isMale ? deactiveColor : activeColor,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: GenderCard(
+                        label: 'FEMALE',
+                        icon: Icons.female,
+                        isSelected: !isMale,
+                      ),
                     ),
                   ),
                 ),
@@ -244,6 +274,58 @@ class CounterCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class GenderCard extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final bool isSelected;
+
+  GenderCard({required this.label, required this.icon, required this.isSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          size: 80.0,
+          color: isSelected ? Colors.black : Colors.white,
+        ),
+        SizedBox(height: 15.0),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 18.0,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  RoundIconButton({required this.icon, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: onPressed,
+      elevation: 0.0,
+      child: Icon(icon, color: Colors.white),
+      constraints: BoxConstraints.tightFor(
+        width: 56.0,
+        height: 56.0,
+      ),
+      shape: CircleBorder(),
+      fillColor: Color(0xFF4C4F5E),
     );
   }
 }
