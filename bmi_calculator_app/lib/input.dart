@@ -29,7 +29,7 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
                     decoration: BoxDecoration(
                       color: Color(0xFF1D1E33),
                     borderRadius: BorderRadius.circular(10.0)),
-    
+
                     child: GenderCard(
                       label: 'MALE',
                       icon: Icons.male,
