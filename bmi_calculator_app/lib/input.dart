@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'icon.dart';
+import 'container.dart';
 class BMICalculatorScreen extends StatefulWidget {
   @override
   _BMICalculatorScreenState createState() => _BMICalculatorScreenState();
@@ -33,7 +35,9 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
                     child: GenderCard(
                       label: 'MALE',
                       icon: Icons.male,
+
                       isSelected: isMale,
+
                     ),
                   ),
                 ),
@@ -185,43 +189,6 @@ class _BMICalculatorScreenState extends State<BMICalculatorScreen> {
   }
 }
 
-class GenderCard extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final bool isSelected;
-
-  GenderCard({required this.label, required this.icon, required this.isSelected});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color: isSelected ? Color(0xFF1D1E33) : Color(0xFF111328),
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 80.0,
-            color: Colors.white,
-          ),
-          SizedBox(height: 15.0),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class CounterCard extends StatelessWidget {
   final String label;
   final int value;
@@ -277,28 +244,6 @@ class CounterCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onPressed;
-
-  RoundIconButton({required this.icon, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      onPressed: onPressed,
-      elevation: 6.0,
-      constraints: BoxConstraints.tightFor(
-        width: 56.0,
-        height: 56.0,
-      ),
-      shape: CircleBorder(),
-      fillColor: Color(0xFF4C4F5E),
-      child: Icon(icon, color: Colors.white),
     );
   }
 }
