@@ -19,60 +19,46 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF1D1E33), // Corrected color definition
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
+                  child: new repeatcontainercode(colors: Color(0xFF1D1E33),),
                 ),
                 Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF1D1E33), // Corrected color definition
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
+                  child: new repeatcontainercode(colors: Color(0xFF1D1E33),)
                 ),
               ],
             ),
           ),
           Expanded(
-            child: Container(
-              margin: const EdgeInsets.all(15.0),
-              decoration: BoxDecoration(
-                color: Color(0xFF1D1E33), // Corrected color definition
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-            ),
+            child: new repeatcontainercode(colors: Color(0xFF1D1E33),)
           ),
           Expanded(
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF1D1E33), // Corrected color definition
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
+                  child: new repeatcontainercode(colors: Color(0xFF1D1E33),)
                 ),
                 Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF1D1E33), // Corrected color definition
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
+                  child: new repeatcontainercode(colors: Color(0xFF1D1E33),)
                 ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class repeatcontainercode extends StatelessWidget {
+   repeatcontainercode({required this.colors});
+   final Color colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(15.0),
+      decoration: BoxDecoration(
+        color: colors, // Corrected color definition
+        borderRadius: BorderRadius.circular(10.0),
       ),
     );
   }
