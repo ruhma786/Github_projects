@@ -17,6 +17,7 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender? selectGender;
   int sliderHeight=180;
+  int sliderweight=60;
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +107,25 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: RepeatContainerCode(
                     colors: Color(0xFF1D1E33),
+                    cardwidget: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Weight',
+                          style: kLabelstyle,
+                        ),
+                        Text(
+                          sliderweight.toString(),
+                          style: kNumberstyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
