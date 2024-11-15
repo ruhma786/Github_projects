@@ -7,3 +7,8 @@ const kLabelstyle = TextStyle(
   fontSize: 20.0,
   color: Color(0xFF8D8E98),
 );
+
+const kNumberstyle =TextStyle(
+fontSize: 45.0,
+fontWeight: FontWeight.w900,
+);
