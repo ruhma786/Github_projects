@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'icon_text.dart';
@@ -29,41 +30,34 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: GestureDetector(
-                    onTap: ()
-                  {
-                    setState(()
-                    {
-                     selectGender=Gender.male;
-                    });
-                  },
+
                     child: RepeatContainerCode(
+                      onPressed: (){
+                        setState(() {
+                          selectGender=Gender.male;
+                        });
+                      },
                       colors: selectGender==Gender.male ? activeColor : de_activeColor,
                       cardwidget: RepeatTextandIconCode(
                         iconData: FontAwesomeIcons.male,
                         label: 'Male',
                       ),
                     ),
-                  ),
                 ),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: ()
-                    {
-                      setState(()
-                      {
-                        selectGender=Gender.female;
-                      });
-                    },
                     child: RepeatContainerCode(
+                      onPressed: (){
+                        setState(() {
+                          selectGender=Gender.female;
+                        });
+                      },
                       colors: selectGender==Gender.female ? activeColor : de_activeColor,
                       cardwidget: RepeatTextandIconCode(
-                          iconData: FontAwesomeIcons.female,
-                          label: 'Female',
+                        iconData: FontAwesomeIcons.female,
+                        label: 'Female',
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
@@ -93,6 +87,3 @@ class _InputPageState extends State<InputPage> {
     );
   }
 }
-
-
-
