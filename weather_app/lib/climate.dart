@@ -1,14 +1,59 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'api.dart';
 
 class Climate extends StatefulWidget {
   const Climate({super.key});
+
   @override
   State<Climate> createState() => _ClimateState();
 }
 
 class _ClimateState extends State<Climate> {
+  String cityName = defaultCity;
+  String temperature = '';
+  String weatherIcon = 'images/light-rain.png';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchWeather();
+  }
+
+  Future<void> fetchWeather() async {
+    final url =
+        'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$apiID&units=imperial';
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          temperature = '${data['main']['temp']}°F';
+          final weatherCondition = data['weather'][0]['main'].toLowerCase();
+          weatherIcon = getWeatherIcon(weatherCondition);
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Failed to fetch weather: $e');
+    }
+  }
+
+  String getWeatherIcon(String condition) {
+    switch (condition) {
+      case 'clear':
+        return 'images/light-rain.png';
+      case 'clouds':
+        return 'images/cloudy.png';
+      case 'rain':
+        return 'images/rain.png';
+      default:
+        return 'images/sunny.png';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,15 +81,15 @@ class _ClimateState extends State<Climate> {
             top: 20.0,
             right: 20.0,
             child: Text(
-              'Vehari',
+              cityName,
               style: cityStyle(),
             ),
           ),
           // Weather Icon
           Center(
             child: Image.asset(
-              'images/light-rain.png',
-              width: 50.0,
+              weatherIcon,
+              width: 80.0,
             ),
           ),
           // Temperature
@@ -52,7 +97,7 @@ class _ClimateState extends State<Climate> {
             bottom: 100.0,
             left: 30.0,
             child: Text(
-              '50.32°F',
+              temperature.isNotEmpty ? temperature : 'Loading...',
               style: tempStyle(),
             ),
           ),
@@ -78,4 +123,3 @@ TextStyle tempStyle() {
     fontSize: 49.9,
   );
 }
-
