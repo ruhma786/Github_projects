@@ -12,48 +12,46 @@ class Climate extends StatefulWidget {
 }
 
 class _ClimateState extends State<Climate> {
-  // State variables for city name, temperature, and weather icon
   String cityName = util.defaultCity;
   String temperature = '';
+  String weatherDescription = '';
+  String humidity = '';
+  String windSpeed = '';
   String weatherIcon = 'images/light-rain.png';
 
   @override
   void initState() {
     super.initState();
-    fetchWeather(); // Fetch weather when the app initializes
+    fetchWeather();
   }
 
-  // Method to fetch weather data from OpenWeatherMap API
   Future<void> fetchWeather() async {
     final url =
         'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=${util.apiID}&units=imperial';
 
     try {
-      // Send HTTP GET request to API
       final response = await http.get(Uri.parse(url));
 
-      // Check if the response is successful
       if (response.statusCode == 200) {
-        // Parse the JSON response
         final data = json.decode(response.body);
 
-        // Extract relevant information and update the state
         setState(() {
-          temperature = '${data['main']['temp']}°F'; // Temperature in Fahrenheit
+          temperature = '${data['main']['temp']}°F';
+          weatherDescription =
+          '${data['weather'][0]['description'][0].toUpperCase()}${data['weather'][0]['description'].substring(1)}'; // Capitalized description
+          humidity = '${data['main']['humidity']}%';
+          windSpeed = '${data['wind']['speed']} mph';
           final weatherCondition = data['weather'][0]['main'].toLowerCase();
-          weatherIcon = getWeatherIcon(weatherCondition); // Get corresponding weather icon
+          weatherIcon = getWeatherIcon(weatherCondition);
         });
       } else {
-        // Log error if API request fails
         print('Error: ${response.statusCode}');
       }
     } catch (e) {
-      // Handle exceptions during the HTTP request
       print('Failed to fetch weather: $e');
     }
   }
 
-  // Helper method to determine the appropriate weather icon
   String getWeatherIcon(String condition) {
     switch (condition) {
       case 'clear':
@@ -63,7 +61,7 @@ class _ClimateState extends State<Climate> {
       case 'rain':
         return 'images/rain.png';
       default:
-        return 'images/light-rain.png'; // Default icon
+        return 'images/light-rain.png';
     }
   }
 
@@ -100,18 +98,40 @@ class _ClimateState extends State<Climate> {
           ),
           // Centered weather icon
           Center(
-            child: Image.asset(
-              weatherIcon,
-              width: 80.0,
-            ),
-          ),
-          // Display the temperature
-          Positioned(
-            bottom: 100.0,
-            left: 30.0,
-            child: Text(
-              temperature.isNotEmpty ? temperature : 'Loading...', // Show loading text while fetching data
-              style: tempStyle(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  weatherIcon,
+                  width: 80.0,
+                ),
+                const SizedBox(height: 20.0),
+                // Display the temperature
+                Text(
+                  temperature.isNotEmpty ? temperature : 'Loading...',
+                  style: tempStyle(),
+                ),
+                const SizedBox(height: 10.0),
+                // Display the weather description
+                Text(
+                  weatherDescription.isNotEmpty
+                      ? 'Condition: $weatherDescription'
+                      : 'Loading...',
+                  style: detailStyle(),
+                ),
+                const SizedBox(height: 10.0),
+                // Display humidity
+                Text(
+                  humidity.isNotEmpty ? 'Humidity: $humidity' : 'Loading...',
+                  style: detailStyle(),
+                ),
+                const SizedBox(height: 10.0),
+                // Display wind speed
+                Text(
+                  windSpeed.isNotEmpty ? 'Wind Speed: $windSpeed' : 'Loading...',
+                  style: detailStyle(),
+                ),
+              ],
             ),
           ),
         ],
@@ -136,5 +156,14 @@ TextStyle tempStyle() {
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w500,
     fontSize: 49.9,
+  );
+}
+
+// Text style for weather details (description, humidity, wind speed)
+TextStyle detailStyle() {
+  return const TextStyle(
+    color: Colors.white,
+    fontSize: 20.0,
+    fontStyle: FontStyle.normal,
   );
 }
