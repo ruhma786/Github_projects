@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'api.dart';
 
 class Climate extends StatefulWidget {
   const Climate({super.key});
@@ -76,3 +78,4 @@ TextStyle tempStyle() {
     fontSize: 49.9,
   );
 }
+
