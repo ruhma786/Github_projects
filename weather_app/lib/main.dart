@@ -4,6 +4,5 @@ void main() => runApp(
     MaterialApp(
       title: 'Climate',
       home: Climate(),
-      debugShowCheckedModeBanner: false,
     )
 );
