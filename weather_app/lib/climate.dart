@@ -1,7 +1,8 @@
-import 'dart:convert';
+import 'dart:convert'; // Import for JSON encoding/decoding
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'api.dart';
+import 'api.dart' as util; // Custom utility for API keys and default city
 
 class Climate extends StatefulWidget {
   const Climate({super.key});
@@ -11,46 +12,58 @@ class Climate extends StatefulWidget {
 }
 
 class _ClimateState extends State<Climate> {
-  String cityName = defaultCity;
+  // State variables for city name, temperature, and weather icon
+  String cityName = util.defaultCity;
   String temperature = '';
   String weatherIcon = 'images/light-rain.png';
 
   @override
   void initState() {
     super.initState();
-    fetchWeather();
+    fetchWeather(); // Fetch weather when the app initializes
   }
 
+  // Method to fetch weather data from OpenWeatherMap API
   Future<void> fetchWeather() async {
     final url =
-        'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$apiID&units=imperial';
+        'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=${util.apiID}&units=imperial';
+
     try {
+      // Send HTTP GET request to API
       final response = await http.get(Uri.parse(url));
+
+      // Check if the response is successful
       if (response.statusCode == 200) {
+        // Parse the JSON response
         final data = json.decode(response.body);
+
+        // Extract relevant information and update the state
         setState(() {
-          temperature = '${data['main']['temp']}°F';
+          temperature = '${data['main']['temp']}°F'; // Temperature in Fahrenheit
           final weatherCondition = data['weather'][0]['main'].toLowerCase();
-          weatherIcon = getWeatherIcon(weatherCondition);
+          weatherIcon = getWeatherIcon(weatherCondition); // Get corresponding weather icon
         });
       } else {
+        // Log error if API request fails
         print('Error: ${response.statusCode}');
       }
     } catch (e) {
+      // Handle exceptions during the HTTP request
       print('Failed to fetch weather: $e');
     }
   }
 
+  // Helper method to determine the appropriate weather icon
   String getWeatherIcon(String condition) {
     switch (condition) {
       case 'clear':
-        return 'images/light-rain.png';
+        return 'images/sunny.png';
       case 'clouds':
         return 'images/cloudy.png';
       case 'rain':
         return 'images/rain.png';
       default:
-        return 'images/sunny.png';
+        return 'images/light-rain.png'; // Default icon
     }
   }
 
@@ -76,7 +89,7 @@ class _ClimateState extends State<Climate> {
               fit: BoxFit.cover,
             ),
           ),
-          // City Name
+          // Display the city name
           Positioned(
             top: 20.0,
             right: 20.0,
@@ -85,19 +98,19 @@ class _ClimateState extends State<Climate> {
               style: cityStyle(),
             ),
           ),
-          // Weather Icon
+          // Centered weather icon
           Center(
             child: Image.asset(
               weatherIcon,
               width: 80.0,
             ),
           ),
-          // Temperature
+          // Display the temperature
           Positioned(
             bottom: 100.0,
             left: 30.0,
             child: Text(
-              temperature.isNotEmpty ? temperature : 'Loading...',
+              temperature.isNotEmpty ? temperature : 'Loading...', // Show loading text while fetching data
               style: tempStyle(),
             ),
           ),
@@ -107,6 +120,7 @@ class _ClimateState extends State<Climate> {
   }
 }
 
+// Text style for city name
 TextStyle cityStyle() {
   return const TextStyle(
     color: Colors.white,
@@ -115,6 +129,7 @@ TextStyle cityStyle() {
   );
 }
 
+// Text style for temperature
 TextStyle tempStyle() {
   return const TextStyle(
     color: Colors.white,
