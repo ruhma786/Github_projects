@@ -4,6 +4,50 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'api.dart' as util; // Custom utility for API keys and default city
 
+// WeatherData model
+class WeatherData {
+  final String temperature;
+  final String weatherDescription;
+  final String humidity;
+  final String windSpeed;
+  final String weatherIcon;
+
+  WeatherData({
+    required this.temperature,
+    required this.weatherDescription,
+    required this.humidity,
+    required this.windSpeed,
+    required this.weatherIcon,
+  });
+
+  // Factory method to create WeatherData from a JSON response
+  factory WeatherData.fromJson(Map<String, dynamic> json) {
+    return WeatherData(
+      temperature: '${json['main']['temp']}°F',
+      weatherDescription:
+      '${json['weather'][0]['description'][0].toUpperCase()}${json['weather'][0]['description'].substring(1)}', // Capitalized description
+      humidity: '${json['main']['humidity']}%',
+      windSpeed: '${json['wind']['speed']} mph',
+      weatherIcon: getWeatherIcon(json['weather'][0]['main'].toLowerCase()),
+    );
+  }
+
+  // Helper method to determine the appropriate weather icon
+  static String getWeatherIcon(String condition) {
+    switch (condition) {
+      case 'clear':
+        return 'images/sunny.png';
+      case 'clouds':
+        return 'images/cloudy.png';
+      case 'rain':
+        return 'images/rain.png';
+      default:
+        return 'images/light-rain.png';
+    }
+  }
+}
+
+// Climate Screen (Fetches and passes weather data)
 class Climate extends StatefulWidget {
   const Climate({super.key});
 
@@ -25,6 +69,7 @@ class _ClimateState extends State<Climate> {
     fetchWeather();
   }
 
+  // Fetch weather data from API
   Future<void> fetchWeather() async {
     final url =
         'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=${util.apiID}&units=imperial';
@@ -42,26 +87,13 @@ class _ClimateState extends State<Climate> {
           humidity = '${data['main']['humidity']}%';
           windSpeed = '${data['wind']['speed']} mph';
           final weatherCondition = data['weather'][0]['main'].toLowerCase();
-          weatherIcon = getWeatherIcon(weatherCondition);
+          weatherIcon = WeatherData.getWeatherIcon(weatherCondition);
         });
       } else {
         print('Error: ${response.statusCode}');
       }
     } catch (e) {
       print('Failed to fetch weather: $e');
-    }
-  }
-
-  String getWeatherIcon(String condition) {
-    switch (condition) {
-      case 'clear':
-        return 'images/sunny.png';
-      case 'clouds':
-        return 'images/cloudy.png';
-      case 'rain':
-        return 'images/rain.png';
-      default:
-        return 'images/light-rain.png';
     }
   }
 
@@ -131,6 +163,28 @@ class _ClimateState extends State<Climate> {
                   windSpeed.isNotEmpty ? 'Wind Speed: $windSpeed' : 'Loading...',
                   style: detailStyle(),
                 ),
+                const SizedBox(height: 20.0),
+                ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the WeatherDetailsScreen and pass weather data
+                    final weatherData = WeatherData(
+                      temperature: temperature,
+                      weatherDescription: weatherDescription,
+                      humidity: humidity,
+                      windSpeed: windSpeed,
+                      weatherIcon: weatherIcon,
+                    );
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            WeatherDetailsScreen(weatherData: weatherData),
+                      ),
+                    );
+                  },
+                  child: const Text('View Weather Details'),
+                ),
               ],
             ),
           ),
@@ -166,4 +220,51 @@ TextStyle detailStyle() {
     fontSize: 20.0,
     fontStyle: FontStyle.normal,
   );
+}
+
+// WeatherDetailsScreen (Displays the fetched weather data)
+class WeatherDetailsScreen extends StatelessWidget {
+  final WeatherData weatherData;
+
+  const WeatherDetailsScreen({super.key, required this.weatherData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Weather Details'),
+        backgroundColor: Colors.red,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              weatherData.weatherIcon,
+              width: 100.0,
+            ),
+            Text(
+              weatherData.temperature,
+              style: tempStyle(),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              'Condition: ${weatherData.weatherDescription}',
+              style: detailStyle(),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              'Humidity: ${weatherData.humidity}',
+              style: detailStyle(),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              'Wind Speed: ${weatherData.windSpeed}',
+              style: detailStyle(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
