@@ -1,41 +1,57 @@
 import 'package:flutter/material.dart';
-class climate extends StatefulWidget {
-  const climate({super.key});
+
+class Climate extends StatefulWidget {
+  const Climate({super.key});
   @override
-  State<climate> createState() => _climateState();
+  State<Climate> createState() => _ClimateState();
 }
 
-class _climateState extends State<climate> {
+class _ClimateState extends State<Climate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ClimateApp'),
+        title: const Text('ClimateApp'),
         backgroundColor: Colors.red,
         actions: <Widget>[
           IconButton(
-              onPressed: ()=>print('clicked'),
-              icon: Icon(Icons.menu))
+            onPressed: () => print('Menu clicked'),
+            icon: const Icon(Icons.menu),
+          ),
         ],
-
-
       ),
       body: Stack(
         children: <Widget>[
-          Center(
-            child: Image(
-              image: AssetImage('images/umbrella.png'),
-              height: 1200.0,
-              width: 500.0,
-              fit: BoxFit.fill,
+          // Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'images/umbrella.png',
+              fit: BoxFit.cover,
             ),
           ),
-          Container(
-            alignment: Alignment.topRight,
-            margin: EdgeInsets.fromLTRB(0.0, 10.9, 20.9, 0.0),
+          // City Name
+          Positioned(
+            top: 20.0,
+            right: 20.0,
             child: Text(
               'Vehari',
               style: cityStyle(),
+            ),
+          ),
+          // Weather Icon
+          Center(
+            child: Image.asset(
+              'images/light-rain.png',
+              width: 50.0,
+            ),
+          ),
+          // Temperature
+          Positioned(
+            bottom: 100.0,
+            left: 30.0,
+            child: Text(
+              '50.32°F',
+              style: tempStyle(),
             ),
           ),
         ],
@@ -44,11 +60,19 @@ class _climateState extends State<climate> {
   }
 }
 
-
-TextStyle cityStyle(){
-  return TextStyle(
+TextStyle cityStyle() {
+  return const TextStyle(
     color: Colors.white,
     fontSize: 22.9,
     fontStyle: FontStyle.italic,
+  );
+}
+
+TextStyle tempStyle() {
+  return const TextStyle(
+    color: Colors.white,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w500,
+    fontSize: 49.9,
   );
 }
