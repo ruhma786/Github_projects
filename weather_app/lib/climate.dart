@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-class Climate extends StatefulWidget {
-  const Climate({super.key});
+class climate extends StatefulWidget {
+  const climate({super.key});
   @override
-  State<Climate> createState() => _ClimateState();
+  State<climate> createState() => _climateState();
 }
 
-class _ClimateState extends State<Climate> {
+class _climateState extends State<climate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +30,25 @@ class _ClimateState extends State<Climate> {
               fit: BoxFit.fill,
             ),
           ),
+          Container(
+            alignment: Alignment.topRight,
+            margin: EdgeInsets.fromLTRB(0.0, 10.9, 20.9, 0.0),
+            child: Text(
+              'Vehari',
+              style: cityStyle(),
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+
+TextStyle cityStyle(){
+  return TextStyle(
+    color: Colors.white,
+    fontSize: 22.9,
+    fontStyle: FontStyle.italic,
+  );
 }
