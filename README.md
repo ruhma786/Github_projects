@@ -87,5 +87,4 @@ To develop a **secure** and **collaborative communication app** tailored to meet
 - **Domain restriction** to **@cui.com email addresses**.  
 - **Secure logout** and session management options.  
 
----  
-For more details, refer to the **GitHub ReadMe file** for implementation and technical guidelines. 
+
