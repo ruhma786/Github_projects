@@ -1,44 +1,66 @@
-# Github_projects
-https://github.com/user-attachments/assets/a390adb2-a202-463f-a580-ff5a52563dd2
+CUI Chat App 
 
+Undertaken By:
 
-https://github.com/user-attachments/assets/13212a41-c081-4deb-acec-972fa41628cf
+Student 1 Ruhma
+CIIT/SP22-BSE-023/VEHARI
 
+Student 2 Habiba
+CIIT/SP22-BSE-032/VEHARI
 
-https://github.com/user-attachments/assets/72ceecea-c4a2-4264-b347-f523781608b1
-
-
-https://github.com/user-attachments/assets/a3fe9f33-7cd8-4021-ac3f-adf5f8e66024
-
-
-https://github.com/user-attachments/assets/10e1e5ac-a255-49c9-8520-338940cde4e7
-
+Student 3 Memoona
+CIIT/SP22-BSE-010/VEHARI
 
 
 
-https://github.com/user-attachments/assets/6f3e6cf1-060c-4b72-8a5a-cb8ec6bc1f6a
+Supervised By:
+[Muhammad Abdullah] 
+
+
+ 
+
+				
+A PROPOSAL SUBMITTED AS A NEW IDEA FULFILLMENT OF THE REQUIREMENTS FOR THE DEGREE OF BACHELORS IN SOFTWARE ENGINEERING
 
 
 
-https://github.com/user-attachments/assets/cd95bc38-4fc5-40da-be36-b05194548886
+DEPARTMENT OF COMPUTER SCIENCE
 
+COMSATS UNIVESITY ISLAMABAD, VEHARI CAMPUS
+VEHARI – PAKISTAN
 
-
-
-
-https://github.com/user-attachments/assets/5c165a76-e387-4099-819d-72b4d72db7b2
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+1.  Introduction
+The CUI Chat App is a real-time communication platform tailored specifically for the students, faculty, and staff of COMSATS University Islamabad (CUI). The app provides secure and efficient communication, fostering academic collaboration and simplifying university announcements. With an exclusive focus on verified @cui.com email addresses, the platform ensures that communication remains within the university environment. Key functionalities include real-time messaging, group chats, media sharing, university announcements, and enhanced user privacy.
+2.  Aim and Objectives of the Project
+To develop a secure and collaborative communication app for COMSATS University members that supports academic and administrative requirements.
+•	Facilitate real-time communication for students, faculty, and staff.
+•	Provide a centralized platform for academic discussions and project collaboration.
+•	Ensure secure access via @cui.com email authentication.
+•	Enable group-based communication for class, department, or project discussions.
+•	Simplify university-wide announcements and notifications.
+•	Maintain high standards of user privacy and data security through end-to-end encryption.
+3.  Functional Requirements
+Authentication and User Management
+•	Email-based login and signup with @cui.com email restriction.
+•	Password reset functionality via email.
+Messaging Features
+•	Real-time one-on-one and group messaging.
+•	Media sharing for images, PDFs, and documents.
+•	Delivery status indicators (Sent, Delivered, Read).
+•	Message search functionality for retrieving past conversations and attachments.
+Academic and University Features
+•	Group announcements by teachers and administrators.
+•	Dedicated notice board section for university-wide announcements.
+•	Class and project-based group chats for academic discussions.
+Administrative Controls
+•	Admins can monitor and manage users and groups.
+•	Content moderation to filter inappropriate content.
+Notifications
+•	Push notifications for new messages and announcements in real time.
+User Profiles
+•	Profile management features to update name, profile picture, and department.
+Security Features
+•	End-to-end encryption for secure messaging.
+•	Domain restriction to @cui.com email addresses.
+•	Secure logout and session management options.
 
