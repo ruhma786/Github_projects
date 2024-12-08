@@ -31,7 +31,7 @@ As a **New Idea** Fulfillment of the Requirements for the Degree of
 
 ## **1. Introduction**  
 The **CUI Chat App** is a **real-time communication platform** designed exclusively for the **students, faculty, and staff of COMSATS University Islamabad (CUI)**. This app promotes **secure and efficient communication** to enhance **academic collaboration** and simplify **university announcements**.  
-The app is accessible only through verified **@cui.com email addresses**, ensuring that all interactions remain within the **university community**.  
+The app is accessible only through verified **@cuivehari.edu.pk  email addresses**, ensuring that all interactions remain within the **university community**.  
 
 ### **Key Functionalities:**  
 - **Real-time Messaging**  
@@ -48,7 +48,7 @@ To develop a **secure** and **collaborative communication app** tailored to meet
 ### **Objectives:**  
 - Facilitate **real-time communication** for students, faculty, and staff.  
 - Provide a **centralized platform** for academic discussions and project collaboration.  
-- Ensure secure access via **@cui.com email authentication**.  
+- Ensure secure access via **@cuivehari.edu.pk  email authentication**.  
 - Support **group-based communication** for class, department, or project discussions.  
 - Simplify **university-wide announcements** and notifications.  
 - Maintain high standards of **user privacy** and **data security** through **end-to-end encryption**.  
@@ -58,7 +58,7 @@ To develop a **secure** and **collaborative communication app** tailored to meet
 ## **3. Functional Requirements**  
 
 ### **Authentication and User Management:**  
-- **Email-based login and signup** restricted to **@cui.com email addresses**.  
+- **Email-based login and signup** restricted to **@cuivehari.edu.pk  email addresses**.  
 - **Password reset** functionality via email.  
 
 ### **Messaging Features:**  
@@ -84,7 +84,7 @@ To develop a **secure** and **collaborative communication app** tailored to meet
 
 ### **Security Features:**  
 - **End-to-end encryption** for secure messaging.  
-- **Domain restriction** to **@cui.com email addresses**.  
+- **Domain restriction** to **@cuivehari.edu.pk  email addresses**.  
 - **Secure logout** and session management options.  
 
 
