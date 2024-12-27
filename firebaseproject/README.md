@@ -86,9 +86,4 @@ To develop a secure and collaborative communication app for COMSATS University m
 - End-to-end encryption for secure messaging.
 - Domain restriction to `@cuivehari.edu.pk` email addresses.
 - Secure logout and session management options.
-
----
-
-## Repository Information
-This proposal is part of the **CUI Chat App** project. All contributions and updates will be documented in this repository. For additional information or project updates, visit the [CUI Chat App GitHub Repository](#).
-
+- 
